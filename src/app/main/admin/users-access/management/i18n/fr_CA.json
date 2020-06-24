@@ -1,0 +1,17 @@
+{
+    "title": "Gestion des utilisateurs",
+    "message": {
+        "user_added": "",
+        "user_updated": "",
+        "user_deleted": "Utilisateur supprimé",
+        "noUsers": "Aucun utilisateur trouvé."
+    },
+    "error": {
+        "user_submit_error": "",
+        "user_updated": "",
+        "user_deleted": "Erreur lors de la suppréssion"
+    },
+    "edit_user": "Modifier l'utilisateur",
+    "create_user": "Crée un utilisateur",
+    "developedby": "Développé par {{company}}"
+}

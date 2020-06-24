@@ -1,0 +1,10 @@
+{
+    "lifetime_of_sessions": "Durée de vie des sessions",
+    "default_sender_name": "Nom de l'expéditeur par défaut",
+    "default_email_address": "Adresse d'email par défaut",
+    "email_subject_prefix": "Préfixe du sujet de l'e-mail",
+    "default_background_photo": "Photo de fond par défaut",
+    "profile_picture_updated_successfully": "Photo de profil mise à jour avec succès",
+    "drag_an_image_file_here_or_click_on_it": "Faites glisser un fichier image ici ou cliquez dessus",
+    "only_images_jpeg_png_are_accepted": "(Seules les images *.jpeg et *.png seront acceptées)"
+}

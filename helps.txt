@@ -1,0 +1,64 @@
+Unused dependencies
+* @ckeditor/ckeditor5-build-balloon
+* @date-io/date-fns
+* @material-ui/pickers
+* apollo-boost
+* apollo-link-context
+* apollo-upload-client
+* auth0-lock
+* autosuggest-highlight
+* axios-mock-adapter
+* date-fns
+* downshift
+* firebase
+* google-map-react
+* jsonwebtoken
+* jwt-decode
+* keycode
+* material-table
+* material-ui-image
+* material-ui-popup-state
+* mobile-detect
+* notistack
+* path-to-regexp
+* perfect-scrollbar
+* raw-loader
+* react-autosuggest
+* react-beautiful-dnd
+* react-big-calendar
+* react-draggable
+* react-frame-component
+* react-masonry-css
+* react-number-format
+* react-swipeable-views
+* react-text-mask
+* react-virtualized
+* react-window
+* slugify
+Unused devDependencies
+* @babel/preset-env
+* js-beautify
+* marked
+Missing dependencies
+* eslint-config-react-app: ./package.json
+* babel-eslint: ./package.json
+* eslint-plugin-import: ./package.json
+* eslint-plugin-flowtype: ./package.json
+* eslint-plugin-jsx-a11y: ./package.json
+* eslint-plugin-react: ./package.json
+* eslint-plugin-react-hooks: ./package.json
+* @fuse/fuse-colors: ./src/@fuse/FuseDefaultSettings.js
+* prop-types: ./src/@fuse/components/FuseAnimate/FuseAnimate.js
+* velocity-animate: ./src/@fuse/components/FuseAnimate/FuseAnimate.js
+* app: ./src/@fuse/components/FuseAuthorization/FuseAuthorization.js
+* clsx: ./src/@fuse/components/FuseChipSelect/FuseChipSelect.js
+* @fuse/hooks: ./src/@fuse/components/FuseNavigation/horizontal/FuseNavHorizontalGroup.js
+* history: ./src/@history.js
+* apollo-client: ./src/app/App.js
+* apollo-cache-inmemory: ./src/app/App.js
+* @fuse/FuseUtils: ./src/app/fuse-layouts/shared-components/quickPanel/QuickPanel.js
+* @TekruFramework/components: ./src/app/main/admin/misc/navigation-menu/sub-component/CategoryComponent.js
+* @TekruFramework/helpers: ./src/app/main/misc/category-page/CategoryPage.js
+* graphql-tag: ./src/app/services/originServices/menusService.js
+* @fuse/FuseDefaultSettings: ./src/app/store/reducers/fuse/settings.reducer.js
+* reactcss: ./src/@TekruFramework/components/ColorField.js

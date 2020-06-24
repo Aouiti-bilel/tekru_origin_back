@@ -1,0 +1,144 @@
+{
+    "myprofile": "Mon profile",
+    "administration": "Administration",
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "register": "S'inscrire",
+    "dashboard": "Tableau de bord",
+    "lines_to_show": "Lignes à afficher",
+    "crop": "Recadrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Enregistrer",
+    "search": "Rechercher",
+    "create": "Créer",
+    "loading": "Chargement...",
+    "no_data": "Aucune donnée",
+    "actions": "Actions",
+    "email": "Email",
+    "cellphone": "Mobile",
+    "others": "Autres",
+    "misc": "Général",
+    "news_block": "Block de nouvelle",
+    "title": "Titre",
+    "status": "Statut",
+    "creation_date": "Date de création",
+    "update_date": "Date de mise à jour",
+    "publishing_date": "Date de publication",
+    "sort_date": "Date de tri",
+    "author": "Auteur",
+    "update": "Mise à jour",
+    "display_mode": "Mode d'affichage",
+    "read_more": "Lire plus",
+    "calendar": {
+        "hour": "Heure",
+        "hour_plural": "Heures",
+        "nHour": "{{count}} heur",
+        "nHour_plural": "{{count}} heurs",
+        "day": "Jour",
+        "day_plural": "Jours",
+        "nDay": "{{count}} jour",
+        "nDay_plural": "{{count}} jours",
+        "week": "Semaine",
+        "week_plural": "Semaines",
+        "nWeek": "{{count}} semaine",
+        "nWeek_plural": "{{count}} semaines",
+        "nW": "S {{count}}",
+        "nW_plural": "S {{count}}",
+        "month": "Mois",
+        "month_plural": "Mois",
+        "nMonth": "{{count}} mois",
+        "nMonth_plural": "{{count}} mois",
+        "quarter": "Trimestre",
+        "quarter_plural": "Trimestres",
+        "nQuarter": "{{count}} trimestre",
+        "nQuarter_plural": "{{count}} trimestres",
+        "year": "Année",
+        "year_plural": "Années",
+        "nYear": "{{count}} année",
+        "nYear_plural": "{{count}} années",
+        "month_1": "Janvier",
+        "month_2": "Février",
+        "month_3": "Mars",
+        "month_4": "Avril",
+        "month_5": "Mai",
+        "month_6": "Juin",
+        "month_7": "Juillet",
+        "month_8": "Aout",
+        "month_9": "Septembre",
+        "month_10": "Octobre",
+        "month_11": "Novembre",
+        "month_12": "Decembre",
+        "week_day_1": "Lundi",
+        "week_day_2": "Mardi",
+        "week_day_3": "Mercredi",
+        "week_day_4": "Jeudi",
+        "week_day_5": "Vendredi",
+        "week_day_6": "Samedi",
+        "week_day_7": "Dimanche"
+    },
+    "settings": "Configuration",
+    "administrationHome": {
+        "home_sub_title": "Administration et configuration de la plateforme"
+    },
+    "user": {
+        "name": "Prénom",
+        "familyName": "Nom",
+        "level": "Niveau",
+        "active": "Active"
+    },
+    "level": "Niveau",
+    "level_plural": "Niveaux",
+    "access": "Accés",
+    "access_plural": "Accés",
+    "accesses": {
+        "can_view": "Peut voir",
+        "can_view_own": "Voir propre",
+        "can_create": "Peut créer",
+        "can_edit": "Peut modifier",
+        "can_delete": "Peut supprimer"
+    },
+    "developedby": "Développé par {{company}}",
+    "error": {
+        "crop": "Erreur lors du recadrage de l'image",
+        "access": "Vous n'avez pas les accès pour ces éléments de la plateforme.",
+        "server": "Erreur avec le serveur",
+        "no_content_found": "Pas de contenu disponible.",
+        "saving": "Erreur lors de l'enregistrement.",
+        "image": {
+            "deleted": "Erreur lors de la suppression de l'image."
+        },
+        "upload": {
+            "image": "Erreur lors de la mise en ligne de la photo",
+            "file_size": "Le fichier est trop grand.",
+            "file_size_n": "Le fichier est plus grand que la limit ({{n})."
+        },
+        "form": {
+            "required": "Ce champs est obligatoire",
+            "minLength": "{{N}} caractères au minimum",
+            "maxLength": "{{N}} caractères au maximum",
+            "passwordReq": "Doit être un mot de passe plus sécuritaire (au moins 1 lettre, 1 chiffre et 1 caractère spécial)",
+            "passwordEquals": "Les mots passe ne sont pas les memes.",
+            "email": "Ce n'est pas un email valide"
+        }
+    },
+    "success": {
+        "content_saved": "Contenu enregistré.",
+        "image": {
+            "deleted": "L'image de l'article est supprimée"
+        },
+        "upload": {
+            "image": "Photo mise à jour avec succès"
+        }
+    },
+    "content_status": {
+        "published": "Publié",
+        "draft": "Brouillon",
+        "hidden": "Caché",
+        "planned": "Planifié"
+    },
+    "uploader": {
+        "drag_an_image_file_here_or_click_on_it": "Faites glisser un fichier image ici ou cliquez dessus",
+        "only_images_jpeg_png_are_accepted": "(Seules les images *.jpeg et *.png seront acceptées)"
+    }
+}

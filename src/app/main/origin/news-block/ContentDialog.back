@@ -1,0 +1,309 @@
+import React, {useEffect, useState} from 'react';
+import {
+    Slide,
+    Dialog,
+    Typography,
+    Input,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Button,
+    Box,
+    CircularProgress,
+    makeStyles
+} from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
+import {useDispatch, useSelector} from 'react-redux';
+import * as FuseActions from 'app/store/actions';
+import * as Actions from './store/actions';
+import ReactHtmlParser from 'react-html-parser';
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CoverImageEditor from './components/cover-image-editor';
+import { contentService } from 'app/services/originServices';
+import TimeAgo from 'react-timeago'
+import frenchStrings from 'react-timeago/lib/language-strings/fr'
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
+import tkrUploadAdapter from './libs/uploadAdapter';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const useStyles = makeStyles(theme => ({
+    featuredImage: {
+        height: '300px',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    },
+    contentDetail: {
+        marginRight: '5px'
+    }
+}));
+
+function ContentDialog(props) {
+    const dispatch = useDispatch();
+    const {
+        data,
+        contentDialogId,
+        edit,
+    } = useSelector(({newsBlockApp}) => newsBlockApp);
+    const user = useSelector(({auth}) => auth.user);
+    const [content, setContent] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const classes = useStyles();
+    const formatter = buildFormatter(frenchStrings)
+    const statusTxt = ['Publié', 'Brouillon', 'Caché']
+
+    function handleFormSubmit(event) {
+        setLoading(true);
+        let data = {
+            id: content.id,
+            title: content.title,
+            content: content.content,
+            status: content.status,
+            publishedAt: content.publishedAt,
+        }
+        contentService.up(data)
+            .then((response) => {
+                setLoading(false);
+                // Show a message
+                dispatch(
+                    FuseActions.showMessage({
+                        message: 'Article enregistré.',
+                        autoHideDuration: 3000,
+                        variant: 'success' //success error info warning null
+                    }));
+                // Dispatch data 
+                if (content.id > 0) {
+                    dispatch(Actions.updateContent(content.id, data.title, 'title'));
+                    dispatch(Actions.updateContent(content.id, data.content, 'content'));
+                    dispatch(Actions.updateContent(content.id, data.status, 'status'));
+                    dispatch(Actions.updateContent(content.id, Date.now(), 'updatedAt'));
+                    dispatch(Actions.updateContent(content.id, content.publishedAt, 'publishedAt'));
+                } else {
+                    dispatch(
+                        Actions.addContent({
+                            ...content,
+                            id: response,
+                            createdAt: Date.now()
+                        }, true)
+                    );
+                }
+            })
+            .catch(error => {
+                setLoading(false);
+                dispatch(FuseActions.showMessage({
+                    message: (error[0] !== undefined ? error[0].message : 'Erreur lors de l\'enregistrement'),
+                    variant: 'error' //success error info warning null
+                }));
+            });
+    }
+
+    useEffect(() => {
+        setShowModal(false);
+        if (contentDialogId > 0) {
+            setShowModal(true);
+            const tmp = data.filter(el => el.id === contentDialogId);
+            if (tmp[0]) {
+                setContent(tmp[0]);
+                if (!tmp[0].content) {
+                    dispatch(Actions.getContentText(tmp[0].id));
+                }
+            }
+        } else if (contentDialogId === 0 && edit === true) {
+            setShowModal(true);
+            setContent({
+                id: 0,
+                featured_image: null,
+                title: '',
+                content: '',
+                status: 2,
+                author: {
+                    prenom: user.data.firstName,
+                    nomFamille: user.data.lastName,
+                }
+            });
+        }
+    }, [edit, data, contentDialogId, dispatch, user]);
+
+    return (
+        (showModal && (
+            <Dialog
+                classes={{
+                    paper: "w-full m-24 rounded-8"
+                }}
+                TransitionComponent={Transition}
+                onClose={ev => dispatch(Actions.closeContentDialog())}
+                open={Boolean(showModal)}
+            >
+                <div className="flex flex-col w-full">
+                    
+                        <div className="w-full">
+                            {( !edit ? (
+                                <div className="relative">
+                                    <div className={classes.featuredImage} style={{
+                                        backgroundImage: `url(${(content.featured_image ? content.featured_image : 'assets/images/news-block/default-image.png' )})`
+                                    }}></div>
+                                </div> 
+                            ) :
+                                ( (content.id>0) && (
+                                    <div className="p-16 pt-6 pb-6">
+                                        <CoverImageEditor image={content.featured_image} post_id={content.id} />
+                                    </div>
+                                ))
+                            )}
+                            <div className="p-16 pb-6">
+                                {( edit ? (
+                                    <div className="flex flex-wrap py-24">
+                                        <div className="w-full sm:w-1/2 lg:w-3/5 flex flex-col">
+                                            <FormControl disabled={loading}>
+                                                <InputLabel htmlFor="content-status">Titre</InputLabel>
+                                                <Input
+                                                    className="font-bold"
+                                                    placeholder="Titre"
+                                                    type="text"
+                                                    name="title"
+                                                    value={content.title}
+                                                    onChange={e => setContent({
+                                                        ...content,
+                                                        title: e.target.value
+                                                    })}
+                                                    readOnly={loading}
+                                                    fullWidth
+                                                />
+                                            </FormControl>
+                                        </div>
+                                        <Box className="w-full sm:w-1/2 lg:w-1/5 flex flex-col" p = {{ xs: '14px 0px 14px 0px', sm: '0' }} >
+                                            <FormControl disabled={loading}>
+                                                <InputLabel htmlFor="content-status">Statut</InputLabel>
+                                                <Select
+                                                    value={content.status}
+                                                    onChange={e => setContent({
+                                                        ...content,
+                                                        status: e.target.value
+                                                    })}
+                                                    inputProps={{
+                                                        name: 'age',
+                                                        id: 'content-status',
+                                                    }}
+                                                >
+                                                    <MenuItem value={1}>{statusTxt[0]}</MenuItem>
+                                                    <MenuItem value={2}>{statusTxt[1]}</MenuItem>
+                                                    <MenuItem value={3}>{statusTxt[2]}</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                        <Box className = "w-full sm:w-1/1 lg:w-1/5 flex flex-col" p = {{ sm: '14px 0px', lg: '0px 0px 0px 6px',}} >
+                                            <FormControl>
+                                                <Button variant="outlined" color="primary" disabled={loading} onClick={handleFormSubmit}>
+                                                    {loading ? <CircularProgress  style={{
+                                                        width: '25px', height: '25px'
+                                                    }} /> : <SaveIcon   style={{
+                                                        width: '25px', height: '25px'
+                                                    }} />}
+                                                </Button>
+                                            </FormControl>
+                                        </Box>
+                                    </div>
+                                ) : (
+                                    <Typography variant="h6">{content.title}</Typography>
+                                ) )}
+
+                                {( edit ? (
+                                    <div className="flex flex-wrap">
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <FormControl disabled={loading} className="w-full sm:w-1/2 lg:w-1/2 flex flex-col">
+                                                <KeyboardDatePicker
+                                                    className="font-bold"
+                                                    disableToolbar
+                                                    variant="inline"
+                                                    format="dd/MM/yyyy"
+                                                    id = "publishedAt"
+                                                    label="Date de publication"
+                                                    value={content.publishedAt}
+                                                    onChange={date => setContent({
+                                                        ...content,
+                                                        publishedAt: date
+                                                    })}
+                                                    readOnly={loading}
+                                                    fullWidth
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </MuiPickersUtilsProvider>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <Typography variant="caption">
+                                            <span className={classes.contentDetail}>
+                                                <strong>Auteur:</strong> {content.author.prenom} {content.author.nomFamille}
+                                            </span>
+                                            {
+                                                (!edit) && (
+                                                    <span className={classes.contentDetail}>
+                                                        | <strong> Statut:</strong> {statusTxt[content.status-1]}
+                                                    </span>
+                                                )
+                                            }
+                                            <div></div>
+                                            {
+                                                content.publishedAt && (
+                                                    <span className={classes.contentDetail}>
+                                                        <strong>Publié:</strong> <TimeAgo date={content.publishedAt} formatter={formatter} />
+                                                    </span>
+                                                )
+                                            }
+                                            {
+                                                (content.updatedAt && content.updatedAt !== content.createdAt) && (
+                                                    <span>
+                                                        | <strong>Mis à jour:</strong> <TimeAgo date={content.updatedAt} formatter={formatter} /> 
+                                                    </span>
+                                                )
+                                            }
+                                        </Typography>
+                                    </div>
+                                ) )}
+                                
+                            </div>
+                            
+                            <div className="p-16 pb-12" style={{overflowX: 'hidden', overflowY: 'scroll'}}>
+                                {( edit ? (
+                                    <CKEditor
+                                        editor={ClassicEditor}
+                                        data={(content.content ? content.content : '')}
+                                        onInit={ editor => {
+                                            editor.plugins.get('FileRepository').createUploadAdapter = ( loader ) => {
+                                                return new tkrUploadAdapter(loader);
+                                            };
+                                        } }
+                                        onChange={ ( event, editor ) => {
+                                            const data = editor.getData();
+                                            setContent({
+                                                ...content,
+                                                content: data,
+                                            });
+                                        } }
+                                    />
+                                ) : (
+                                    ReactHtmlParser(content.content)
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                
+            </Dialog>
+        ))
+    );
+}
+
+export default ContentDialog;
